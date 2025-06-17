@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesGenius Package Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            padding: 40px 20px;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-size: 1.4rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .comparison-table {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 0;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+            padding: 30px 20px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .package-header {
+            text-align: center;
+        }
+
+        .package-price {
+            font-size: 1.8rem;
+            margin-top: 5px;
+            color: white;
+            font-weight: 900;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .table-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .feature-cell {
+            padding: 25px 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .value-cell {
+            padding: 25px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .category-row {
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 900;
+            font-size: 1rem;
+        }
+
+        .category-row .feature-cell {
+            color: white;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .enterprise-cell {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .cta-button {
+            padding: 18px 50px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            border: 2px solid white;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: transparent;
+            color: white;
+        }
+
+        .cta-button:hover {
+            background: white;
+            color: black;
+        }
+
+        @media (max-width: 1200px) {
+            .table-header, .table-row {
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                font-size: 0.9rem;
+            }
+            
+            .value-cell {
+                padding: 15px 10px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+                line-height: 1.1;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .comparison-table {
+                display: none !important;
+            }
+            
+            .mobile-cards {
+                display: block !important;
+                margin-top: 40px;
+            }
+            
+            .mobile-card {
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 20px;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-card-header {
+                padding: 25px 20px;
+                cursor: pointer;
+                position: relative;
+                background: rgba(255, 255, 255, 0.05);
+                user-select: none;
+            }
+            
+            .mobile-card-header:active {
+                background: rgba(255, 255, 255, 0.08);
+            }
+            
+            .mobile-card-title {
+                font-size: 1.4rem;
+                font-weight: 900;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 5px;
+            }
+            
+            .mobile-card-subtitle {
+                font-size: 0.9rem;
+                opacity: 0.7;
+                margin-bottom: 15px;
+            }
+            
+            .mobile-expand-icon {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 1.5rem;
+                transition: transform 0.3s ease;
+                pointer-events: none;
+            }
+            
+            .mobile-card.expanded .mobile-expand-icon {
+                transform: translateY(-50%) rotate(180deg);
+            }
+            
+            .mobile-card-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s ease-out;
+            }
+            
+            .mobile-card.expanded .mobile-card-content {
+                max-height: 2000px;
+            }
+            
+            .mobile-feature-section {
+                padding: 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            
+            .mobile-feature-section:last-child {
+                border-bottom: none;
+            }
+            
+            .mobile-section-title {
+                font-size: 1.1rem;
+                font-weight: 900;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 15px;
+                color: rgba(255, 255, 255, 0.8);
+            }
+            
+            .mobile-feature-item {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 12px;
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+            
+            .mobile-feature-icon {
+                margin-right: 10px;
+                margin-top: 2px;
+                font-size: 1.1rem;
+                min-width: 20px;
+            }
+            
+            .mobile-card-price-section {
+                background: rgba(255, 255, 255, 0.08);
+                padding: 20px;
+                text-align: center;
+                margin-top: 0;
+            }
+            
+            .mobile-card-price-section .mobile-card-price {
+                margin-bottom: 0;
+                font-size: 2rem;
+                font-weight: 900;
+                color: white;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 10px;
+            }
+        }
+
+        .mobile-cards {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-cell, .value-cell {
+                padding: 12px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .cta-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SALESGENIUS PRODUCTS & SERVICES</h1>
+            <p>The only agency that does EVERYTHING for you</p>
+            <p>🔥 No other agency offers this complete system • 💯 Built by top agents • ⚡ Results guaranteed</p>
+        </div>
+
+        <div class="comparison-table">
+            <div class="table-header">
+                <div>What You Get</div>
+                <div class="package-header">
+                    BRANDGENIUS<br>
+                    <div class="package-price">$1,500/mo</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8;">Made for Top Producers</div>
+                </div>
+                <div class="package-header">
+                    PREMIERE<br>
+                    <div class="package-price">$3,000/mo</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8;">Made For Team Leaders or $500K Earners</div>
+                </div>
+                <div class="package-header">
+                    ENTERPRISE<br>
+                    <div class="package-price">Custom</div>
+                    <div style="font-size: 0.8rem; margin-top: 5px; opacity: 0.8;">Custom Solutions For Brokerages & PropTech Companies</div>
+                </div>
+            </div>
+
+            <!-- SETUP -->
+            <div class="table-row category-row">
+                <div class="feature-cell">🚀 SETUP & RESULTS</div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Time to First Results</div>
+                <div class="value-cell">⏰ 4 weeks</div>
+                <div class="value-cell">🔥 7-14 days</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Onboarding & Setup</div>
+                <div class="value-cell">✅ Private onboarding call</div>
+                <div class="value-cell">🔥 Private onboarding + tech automation setup</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <!-- CONTENT CREATION -->
+            <div class="table-row category-row">
+                <div class="feature-cell">🎬 CONTENT CREATION</div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Brand Awareness Video Ads</div>
+                <div class="value-cell">✅ Up to 3 per month</div>
+                <div class="value-cell">🔥 Up to 5 per month</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Video Editing & Production</div>
+                <div class="value-cell">✅ Ads only</div>
+                <div class="value-cell">🔥 Ads + 4 social media videos/month</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Success Story Case Studies</div>
+                <div class="value-cell">✅ 1 per month</div>
+                <div class="value-cell">🔥 3 per month</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <!-- LEAD GENERATION -->
+            <div class="table-row category-row">
+                <div class="feature-cell">🎯 LEAD GENERATION</div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Listing Ad Campaigns</div>
+                <div class="value-cell">✅ 2 per month</div>
+                <div class="value-cell">🔥 4 per month</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Open House Lead Funnels</div>
+                <div class="value-cell">✅ 1 per month</div>
+                <div class="value-cell">🔥 Up to 3 per month</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Custom Lead Magnets</div>
+                <div class="value-cell">✅ Hot Sheet or Listing Ads</div>
+                <div class="value-cell">🔥 State-of-the-art lead magnets</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <!-- EVENTS & MARKETING -->
+            <div class="table-row category-row">
+                <div class="feature-cell">🎉 EVENTS & MARKETING</div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Marketing Events</div>
+                <div class="value-cell">✅ 2 per year</div>
+                <div class="value-cell">🔥 4 per year</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Complete Event Setup</div>
+                <div class="value-cell">✅ Semi-annual events</div>
+                <div class="value-cell">🔥 Quarterly (with warm-up & follow-up)</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Database Giveaway Campaigns</div>
+                <div class="value-cell">✅ Quarterly</div>
+                <div class="value-cell">🔥 Monthly</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <!-- TEAM & SUPPORT -->
+            <div class="table-row category-row">
+                <div class="feature-cell">👥 TEAM & SUPPORT</div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+                <div class="value-cell"></div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Agent Hiring System</div>
+                <div class="value-cell">❌ Not included</div>
+                <div class="value-cell">🔥 Complete hiring funnel</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">LeadGenius Training Access</div>
+                <div class="value-cell">❌ Not included</div>
+                <div class="value-cell">🔥 2 seats included</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Direct Access to Emma & Ryan</div>
+                <div class="value-cell">✅ Quarterly strategy calls</div>
+                <div class="value-cell">🔥 Monthly strategy calls</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+
+            <div class="table-row">
+                <div class="feature-cell">Support & Communication</div>
+                <div class="value-cell">✅ Private Slack + group calls</div>
+                <div class="value-cell">🔥 Private Slack + private team support</div>
+                <div class="value-cell enterprise-cell">Contact our team for custom pricing</div>
+            </div>
+        </div>
+
+        <!-- Mobile Card Layout -->
+        <div class="mobile-cards">
+            <!-- BrandGenius Card -->
+            <div class="mobile-card" onclick="toggleCard(this)">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">BRANDGENIUS</div>
+                    <div class="mobile-card-subtitle">Made for Top Producers</div>
+                    <div class="mobile-expand-icon">▼</div>
+                </div>
+                <div class="mobile-card-content">
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🚀 Setup & Results</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">⏰</span>
+                            <span>4 weeks to first results</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Private onboarding call</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🎬 Content Creation</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Up to 3 brand awareness video ads per month</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Video editing for ads only</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>1 success story case study per month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🎯 Lead Generation</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>2 listing ad campaigns per month</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>1 open house lead funnel per month</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Hot Sheet or Listing Ads</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🎉 Events & Marketing</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>2 marketing events per year</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Semi-annual event setup</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Quarterly database giveaways</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">👥 Team & Support</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Quarterly strategy calls with Emma & Ryan</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">✅</span>
+                            <span>Private Slack + group support calls</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-card-price-section">
+                        <div class="mobile-card-price">$1,500/mo</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premiere Card -->
+            <div class="mobile-card" onclick="toggleCard(this)">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">PREMIERE 🔥</div>
+                    <div class="mobile-card-subtitle">Made For Team Leaders or $500K Earners</div>
+                    <div class="mobile-expand-icon">▼</div>
+                </div>
+                <div class="mobile-card-content">
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🚀 Setup & Results</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>7-14 days to first results</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Private onboarding + tech automation setup</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🎬 Content Creation</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Up to 5 brand awareness video ads per month</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Ads + 4 social media videos per month</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>3 success story case studies per month</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🎯 Lead Generation</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>4 listing ad campaigns per month</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Up to 3 open house lead funnels per month</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>State-of-the-art lead magnets</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">🎉 Events & Marketing</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>4 marketing events per year</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Quarterly events (with warm-up & follow-up)</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Monthly database giveaways</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">👥 Team & Support</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Complete agent hiring funnel</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>2 LeadGenius training seats included</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Monthly strategy calls with Emma & Ryan</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">🔥</span>
+                            <span>Private Slack + private team support</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-card-price-section">
+                        <div class="mobile-card-price">$3,000/mo</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enterprise Card -->
+            <div class="mobile-card" onclick="toggleCard(this)">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">ENTERPRISE</div>
+                    <div class="mobile-card-subtitle">Custom Solutions For Brokerages & PropTech Companies</div>
+                    <div class="mobile-expand-icon">▼</div>
+                </div>
+                <div class="mobile-card-content">
+                    <div class="mobile-feature-section">
+                        <div class="mobile-section-title">💼 Custom Solutions</div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">⚡</span>
+                            <span>Fully customized marketing ecosystems</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">⚡</span>
+                            <span>Dedicated account management</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">⚡</span>
+                            <span>Custom integrations & automation</span>
+                        </div>
+                        <div class="mobile-feature-item">
+                            <span class="mobile-feature-icon">⚡</span>
+                            <span>Contact our team for consultation</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-card-price-section">
+                        <div class="mobile-card-price">Custom Pricing</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>LEARN MORE ABOUT OUR PACKAGES</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 20px;">Ready to see which level fits your business?</p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="cta-button">Learn About BrandGenius</a>
+                <a href="#" class="cta-button">Learn About Premiere</a>
+                <a href="#" class="cta-button">Enterprise Consultation</a>
+            </div>
+            
+            <p style="margin-top: 30px; opacity: 0.8;">
+                📋 Detailed package information<br>
+                💬 Schedule a consultation<br>
+                🎯 Find your perfect fit
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleCard(card) {
+            // Close all other cards first
+            const allCards = document.querySelectorAll('.mobile-card');
+            allCards.forEach(otherCard => {
+                if (otherCard !== card) {
+                    otherCard.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle the clicked card
+            card.classList.toggle('expanded');
+        }
+    </script>
